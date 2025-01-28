@@ -33,7 +33,7 @@ Uma api fictícia para uma empresa de cursos de programação.
     
     Lista todos os cursos salvos no banco de dados.
     
-    Também deve é possível realizar uma busca, filtrando os cursos pelo name e category.
+    Também deve é possível realizar uma busca, filtrando os cursos pelo name e category usando query params.
     
 ### PUT - /cursos/:id
     
