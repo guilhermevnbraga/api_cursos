@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.guilhermevnbraga.api_cursos.exceptions.CourseNotFoundException;
 import br.com.guilhermevnbraga.api_cursos.modules.course.repositories.CourseRepository;
 import br.com.guilhermevnbraga.api_cursos.modules.course.useCases.DeleteCourseUseCase;
+import br.com.guilhermevnbraga.api_cursos.modules.course.useCases.UpdateActivityUseCase;
 import br.com.guilhermevnbraga.api_cursos.modules.course.useCases.UpdateCourseUseCase;
 
 @RestController
@@ -32,6 +31,8 @@ public class CourseController {
   @Autowired UpdateCourseUseCase updateCourseUseCase;
 
   @Autowired DeleteCourseUseCase deleteCourseUseCase;
+
+  @Autowired UpdateActivityUseCase updateActivityUseCase;
 
   @Autowired CourseRepository courseRepository;
 
@@ -66,6 +67,16 @@ public class CourseController {
     try {
       deleteCourseUseCase.execute(id);
       return ResponseEntity.ok().body("Course deleted successfully.");
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
+  @PatchMapping("courses/{id}/active")
+  public ResponseEntity<Object> updateActive(@PathVariable UUID id) {
+    try {
+      var result = this.updateActivityUseCase.execute(id);
+      return ResponseEntity.ok().body(result);
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
