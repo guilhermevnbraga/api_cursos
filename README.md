@@ -27,7 +27,7 @@ Uma api fictícia para uma empresa de cursos de programação.
 
 ### POST - /cursos
     
-Cria um curso no banco de dados, enviando os campos name e category por meio do body da requisição.
+    Cria um curso no banco de dados, enviando os campos name e category por meio do body da requisição.
     
 ### GET - /cursos
     
