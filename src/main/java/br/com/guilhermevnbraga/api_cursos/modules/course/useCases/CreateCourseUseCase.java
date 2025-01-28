@@ -16,7 +16,7 @@ public class CreateCourseUseCase {
         .findByNameAndCategory(courseEntity.getName(),
                                courseEntity.getCategory())
         .ifPresent(course -> {
-          throw new CourseAlreadyExistsException("Course already exists");
+          throw new CourseAlreadyExistsException();
         });
     
     return this.courseRepository.save(courseEntity);
