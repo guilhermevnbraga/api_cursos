@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.guilhermevnbraga.api_cursos.exceptions.CourseNotFoundException;
 import br.com.guilhermevnbraga.api_cursos.modules.course.repositories.CourseRepository;
+import br.com.guilhermevnbraga.api_cursos.modules.course.useCases.DeleteCourseUseCase;
 import br.com.guilhermevnbraga.api_cursos.modules.course.useCases.UpdateCourseUseCase;
 
 @RestController
@@ -28,6 +30,8 @@ public class CourseController {
   @Autowired CreateCourseUseCase createCourseUseCase;
 
   @Autowired UpdateCourseUseCase updateCourseUseCase;
+
+  @Autowired DeleteCourseUseCase deleteCourseUseCase;
 
   @Autowired CourseRepository courseRepository;
 
@@ -60,10 +64,7 @@ public class CourseController {
   @DeleteMapping("courses/{id}")
   public ResponseEntity<Object> delete(@PathVariable UUID id) {
     try {
-      if (!courseRepository.existsById(id)) {
-        throw new CourseNotFoundException();
-      }
-      courseRepository.deleteById(id);
+      deleteCourseUseCase.execute(id);
       return ResponseEntity.ok().body("Course deleted successfully.");
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
